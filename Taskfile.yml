@@ -1,0 +1,13 @@
+version: "3"
+    
+tasks:
+    setup:
+        desc: Docker compose up
+        cmds:
+        - docker compose up -d
+
+    teardown:
+        desc: Docker compose down
+        cmds:
+        - docker compose down
+        - docker volume prune -f

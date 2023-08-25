@@ -1,0 +1,43 @@
+version: '3.9'
+
+# Create volume
+#
+# docker volume create --driver local \
+#     --opt type=none \
+#     --opt device=/Users/hongli.lee/sonar_home \
+#     --opt o=bind sonar_home
+# docker volume create --driver local \
+#     --opt type=none \
+#     --opt device=/Users/hongli.lee/jenkins_home \
+#     --opt o=bind jenkins_home
+
+volumes:
+  sonar_home:
+    external: true
+  # jenkins_home:
+  #   external: true
+
+services:
+  mysql:
+    image: 'mysql:8.1.0-oracle'
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: demo
+    ports:
+      - '3306:3306'
+
+  sonar:
+    image: 'sonarqube:10.1.0-community'
+    volumes:
+      - sonar_home:/opt/sonarqube/data
+    ports:
+      - '9000:9000'
+
+  # jenkins:
+  #   image: 'jenkins/jenkins:2.414.1-lts-jdk11' #'jenkins/jenkins:2.414.1-lts-jdk11'
+  #   volumes:
+  #     - jenkins_home:/var/jenkins_home
+  #   ports:
+  #     - '8080:8080'
+  #     - '50000:50000'
+  #   restart: on-failure
