@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.employee.model.Employee;
 import com.example.employee.repository.EmployeeRepository;
+import com.example.employee.service.EmployeeNotFoundException;
 import com.example.employee.service.EmployeeServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -111,7 +112,7 @@ class EmployeeServiceImplIntegrationTest {
 	    
 		when(employeeRepository.findById(id)).thenReturn(Optional.empty());
 		
-		Exception exception = assertThrows(RuntimeException.class, () -> {
+		Exception exception = assertThrows(EmployeeNotFoundException.class, () -> {
 			employeeService.getEmployeeById(id);
 	    });
 		
